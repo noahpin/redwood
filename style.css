@@ -1,9 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap');
 
 :root {
-    --ui-topmost-height: 40px;
-    --ui-accent-color: #20a075;
-    --ui-accent-color-rgb: 17, 179, 125;
+    --ui-topmost-height: 45px;
     --editor-width: 800px;
 }
 
@@ -19,14 +17,19 @@
     --editor-text-secondary: #a0a0a0;
     --editor-text-tertiary: #a0a0a0;
     --editor-draw-primary: #060738;
-    --editor-draw-red: #ff0000;
-    --editor-draw-orange: #ff8000;
-    --editor-draw-yellow: #ffff00;
-    --editor-draw-green: #00ff00;
-    --editor-draw-cyan: #0099ff;
-    --editor-draw-blue: #0000ff;
-    --editor-draw-purple: #ff00ff;
-    --editor-draw-pink: #ff0080;
+    --editor-draw-secondary: #8c94a3;
+    --editor-draw-tertiary: #cbd1dd;
+    --editor-draw-red: #F94144;
+    --editor-draw-orange: #F3722C;
+    --editor-draw-yellow: #FBB04A;
+    --editor-draw-green: #3fb483;
+    --editor-draw-cyan: #0fa0c0;
+    --editor-draw-blue: #134aaf;
+    --editor-draw-purple: #6d2c99;
+    --editor-draw-pink: #e72e8b;
+    --editor-draw-bark: #834e35;
+    --ui-accent-color: rgb(240, 36, 0);
+    --ui-accent-color-rgb: 240, 36, 0;
 }
 
 .ui-theme-dark {
@@ -41,14 +44,19 @@
     --editor-text-secondary: #a0a0a0;
     --editor-text-tertiary: #a0a0a0;
     --editor-draw-primary: rgb(213, 226, 226);
-    --editor-draw-red: #ff0000;
-    --editor-draw-orange: #ff8000;
-    --editor-draw-yellow: #ffff00;
-    --editor-draw-green: #00ff00;
-    --editor-draw-cyan: #0099ff;
-    --editor-draw-blue: #0000ff;
-    --editor-draw-purple: #ff00ff;
-    --editor-draw-pink: #ff0080;
+    --editor-draw-secondary: rgb(87, 95, 104);
+    --editor-draw-tertiary: rgb(32, 35, 43);
+    --editor-draw-red: #ff3f5f;
+    --editor-draw-orange: #ff9845;
+    --editor-draw-yellow: #ffff61;
+    --editor-draw-green: #3eff7e;
+    --editor-draw-cyan: #51dcff;
+    --editor-draw-blue: #3352ff;
+    --editor-draw-purple: #cd76ff;
+    --editor-draw-pink: #ff97cb;
+    --editor-draw-bark: #8b573f;
+    --ui-accent-color: #ff4a1d;
+    --ui-accent-color-rgb: 255, 74, 29;
 }
 
 body {
@@ -65,36 +73,58 @@ body {
 #app-container {
     background: var(--background-primary);
     height: calc(100vh - 76px);
-    margin-top: 76px;
-    box-sizing: border-box; 
+    margin-top: 86px;
+    box-sizing: border-box;
     overflow: scroll;
-    overflow-x:hidden;
+    overflow-x: hidden;
 }
 
-#documentContainer {
+#document-container {
     touch-action: pan-x pan-y;
     position: relative;
-    width: var(--editor-width);
+    width: 100%;
     height: fit-content;
     margin: auto;
     margin-bottom: 200px;
+    display: flex;
+    justify-content: center;
 }
-
 
 #backgroundPattern {
     position: absolute;
-    top:0;
+    top: 0;
     color: var(--editor-text-primary);
-    width: 100%;
+    width: var(--editor-width);
     min-height: calc(100vh - 100px);
     height: 100%;
     box-sizing: border-box;
-    z-index: 0;
+}
+
+.document-background-grid #backgroundPattern {
+    background-color: var(--background-secondary);
+    mask-position: 10px 10px;
+    
+    mask-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Crect width='1' height='20' fill='black'/%3E%3Crect width='20' height='1' fill='black'/%3E%3C/svg%3E");
 }
 
 .document-background-lined-narrow #backgroundPattern {
     background-color: var(--background-secondary);
-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='1'%3E%3Cpath opacity='.5' d='M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9zm-1 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9z'/%3E%3Cpath d='M6 5V0H5v5H0v1h5v94h1V6h94V5H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    mask-position: 0px -1px;
+    clip-path: polygon(0 60px, 100% 60px, 100% 100%, 0 100%);
+    mask-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Crect width='20' height='1' fill='black'/%3E%3C/svg%3E");
+}
+
+.document-background-lined-wide #backgroundPattern {
+    background-color: var(--background-secondary);
+    mask-position: 0px -5px;
+    clip-path: polygon(0 80px, 100% 80px, 100% 100%, 0 100%);
+    mask-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='40'%3E%3Crect width='20' height='1' fill='black'/%3E%3C/svg%3E");
+}
+
+.document-background-dot-grid #backgroundPattern {
+    background-color: var(--background-secondary-alt);
+    mask-position: 10px 10px;
+    mask-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Crect width='1' height='1' fill='black'/%3E%3C/svg%3E");
 }
 
 svg {
@@ -103,6 +133,12 @@ svg {
     left: 0;
     pointer-events: none;
 }
+#handwritingTop {
+    z-index: 20;
+}
+#handwritingBottom {
+    z-index: 1;
+}
 
 #document-title {
     color: var(--editor-text-primary);
@@ -110,15 +146,18 @@ svg {
 }
 
 #document-main-area {
+    width: var(--editor-width);
     position: relative;
+    border: 1px var(--background-modifier-border) dashed;
+    border-top: none;
 }
 
 #textEditable {
+    position: relative;
     color: var(--editor-text-primary);
     width: 100%;
     min-height: calc(100vh - 100px);
     height: 100%;
-    border: 1px var(--background-modifier-border) dashed;
     border-top: none;
     padding: 40px 24px;
     word-break: break-all;
@@ -154,7 +193,7 @@ svg {
     width: 100%;
     background: var(--background-primary);
     border-bottom: 1px var(--background-modifier-border) solid;
-    height: 36px;
+    height: 41px;
     padding: 0 24px;
     box-sizing: border-box;
 }
@@ -166,6 +205,28 @@ svg {
     transform: translate(-50%, -50%);
 }
 
+.ribbon-current-right {
+    float: right;
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ribbon-button {
+    all: initial;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--ui-accent-color);
+    border-radius: 4px;
+    padding: 4px;
+}
+
+.ribbon-button i {
+    font-size: 22px;
+}
 #text-editor-settings {
     width: 100%;
     background: var(--background-secondary);
@@ -179,41 +240,141 @@ svg {
     padding-bottom: calc(0.25em + env(safe-area-inset-bottom));
     transition: 0.3s bottom;
 }
+
 #text-editor-settings.open {
     bottom: 0;
-
 }
 
 #text-editor-settings-inner {
-    height:100%;
+    height: 100%;
     margin: auto;
     display: flex;
     justify-content: center;
-    gap:4px;
+    gap: 4px;
     align-items: center;
 }
 
 #text-editor-settings-inner .divider {
     width: 2px;
-    height:30px;
+    height: 30px;
     border-radius: 2px;
     background: var(--background-secondary);
 }
 
 .setting-button {
-    all:initial;
-    width:40px;
-    height:40px;
+    all: initial;
+    width: 40px;
+    height: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
     color: var(--ui-text-secondary);
     border-radius: 4px;
+    cursor: pointer;
 }
+
 .setting-button i {
     font-size: 24px;
 }
-.setting-button.active {
+
+.setting-button:not(.color-button):focus, .setting-button:not(.color-button):hover {
+    background: var(--background-primary-alt);
+}
+.setting-button:not(.color-button).active {
     color: var(--ui-accent-color);
-    background:rgb(var(--ui-accent-color-rgb), 0.15);
+    background: rgb(var(--ui-accent-color-rgb), 0.15);
+}
+.color-button:focus, .color-button:hover {
+    background: var(--background-primary-alt);
+}
+.color-button.active {
+    background: var(--background-primary-alt);
+    border: 1px solid var(--background-modifier-border);
+    box-sizing: border-box;
+}
+
+#handwriting-settings {
+    background: var(--background-secondary);
+    position: fixed;
+    background: var(--background-primary);
+    border: 1px var(--background-modifier-border) solid;
+    border-radius: 8px;
+    height: 40px;
+    padding: 4px;
+    left: 1em;
+    bottom: calc(1em + env(safe-area-inset-bottom));
+    display: flex;
+    justify-content: flex-end;
+    gap: 4px;
+    align-items: flex-start;
+    flex-direction: column;
+    transition: 0.3s bottom, 0.3s height;
+    overflow: hidden;
+
+}
+.handwriting-persistent, .handwriting-persistent * {
+    opacity: 1 !important;
+    pointer-events:  all !important;
+}
+
+#handwriting-settings * {
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+#handwriting-settings.open {
+    height: 228px;
+}
+
+#handwriting-settings.open * {
+    pointer-events: all;
+    opacity: 1;
+}
+
+#handwriting-settings-carat i {
+    transition: 0.3s transform;
+}
+#handwriting-settings.open #handwriting-settings-carat i {
+    transform: rotate(180deg);
+}
+#current-draw-color {
+    opacity: 1;
+    pointer-events: all;
+}
+
+#handwriting-settings.open #current-draw-color,#handwriting-settings.open #current-draw-color i  {
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+#text-editor-settings.open ~ #handwriting-settings {
+    bottom: calc(1em + 48px + env(safe-area-inset-bottom));
+}
+
+#handwriting-settings-color-section  {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    align-items: flex-start;
+    flex-direction: column;
+
+}
+
+.handwriting-settings-horizontal {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    align-items: center;
+    flex-direction: row;
+
+}
+
+#handwriting-settings .divider {
+    height: 2px !important;
+    width: 150px;
+    margin: auto;
+    flex-shrink: 0;
+    border-radius: 2px;
+    background: var(--background-secondary);
 }

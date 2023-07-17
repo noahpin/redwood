@@ -10,26 +10,38 @@
     <link rel="stylesheet" href="./style.css">
     <script src="./perf.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.4.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Hyperiooo/Hypericons@v0.7.9.2/fonts/hypericons.css">
     <script src="https://cdn.jsdelivr.net/gh/Hyperiooo/Alrt.js@v0.1.2/src/alrt.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Hyperiooo/Alrt.js@v0.1.1/src/alrt.css" />
 </head>
 
-<body class="ui-theme-dark">
+<body class="ui-theme-light ui-theme-dark">
     <div id="app-container">
         <div id="main-workspace">
             <div id="workspace-header">
                 <div id="workspace-file-tabs"></div>
                 <div id="workspace-current-ribbon">
+                    <div class="ribbon-current-left"></div>
                     <div id="ribbon-current-title">Untitled</div>
+                    <div class="ribbon-current-right">
+                        <button onpointerup="document.body.classList.toggle('ui-theme-dark')" class="ribbon-button">
+                            <i class="hi-book-open-mono"></i>
+                        </button>
+                        <button class="ribbon-button">
+                            <i class="hi-three-dots-mono"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
-            <div id="documentContainer" class="document-background-lined-narrow">
+            <div id="document-container" >
+                <div id="backgroundPattern"></div>
                 <div id="document-main-area" >
-                    <div id="backgroundPattern"></div>
                     <svg id="handwritingTop" preserveAspectRatio="xMinYMin meet" viewBox="0 0 100 100">
                     </svg>
                     <div id="textEditable" contenteditable="true"></div>
 
+                    <svg id="handwritingBottom" preserveAspectRatio="xMinYMin meet" viewBox="0 0 100 100">
+                    </svg>
                 </div>
             </div>
             <div id="text-editor-settings" class="">
@@ -81,6 +93,41 @@
                         <i class="ri-indent-decrease"></i>
                     </button>
                 </div>
+            </div>
+            <div id="handwriting-settings">
+                <div id="handwriting-settings-color-section">
+                </div>
+                <div class="divider"></div>
+                <div class="handwriting-settings-horizontal">
+                    <button class="setting-button">
+                        <i class="hi-brush-width-mono"></i>
+                    </button>
+                    <button class="setting-button active">
+                        <i class="hi-style-fine-mono"></i>
+                    </button>
+                    <button class="setting-button">
+                        <i class="hi-style-dash-mono"></i>
+                    </button>
+                    <button class="setting-button">
+                        <i class="hi-style-dot-mono"></i>
+                    </button>
+                </div>
+                <div class="divider"></div>
+                <div class="handwriting-settings-horizontal handwriting-persistent">
+                    <button onclick="setDrawMode('pen')" id="draw-mode-pen" class="setting-button active">
+                        <i class="hi-pencil-mono"></i>
+                    </button>
+                    <button onclick="setDrawMode('highlighter')"  id="draw-mode-highlighter" class="setting-button">
+                        <i class="hi-highlighter-mono"></i>
+                    </button>
+                    <button class="setting-button" id="current-draw-color">
+                        <i class="hi-circle-small-fill"></i>
+                    </button>
+                    <button class="setting-button" id="handwriting-settings-carat" onclick="toggleHandwritingMenu()">
+                        <i class="hi-carat-up"></i>
+                    </button>
+                </div>
+
             </div>
         </div>
     </div>
