@@ -78,6 +78,7 @@ var EDITOR_COLORS = {
 		id: "editor-draw-tertiary",
 		key: "tertiary",
 	},
+	bark: { css: "--editor-draw-bark", id: "editor-draw-bark", key: "bark" },
 	red: { css: "--editor-draw-red", id: "editor-draw-red", key: "red" },
 	orange: {
 		css: "--editor-draw-orange",
@@ -98,7 +99,6 @@ var EDITOR_COLORS = {
 		key: "purple",
 	},
 	pink: { css: "--editor-draw-pink", id: "editor-draw-pink", key: "pink" },
-	bark: { css: "--editor-draw-bark", id: "editor-draw-bark", key: "bark" },
 };
 
 const STROKE_STYLES = {
@@ -147,6 +147,7 @@ function createColorMenu() {
 
 createColorMenu();
 setDrawColor("primary");
+setDrawStyle("FINE");
 
 function setDrawColor(color) {
 	console.log("asdf");
@@ -178,6 +179,19 @@ function setDrawMode(mode) {
 		});
 		document.getElementById("draw-mode-highlighter").classList.add("active");
 	}
+}
+
+function setDrawStyle(style) {
+
+	if(STROKE_STYLES.hasOwnProperty(style)){
+		console.log("ya")
+	}
+	
+	document.querySelectorAll("[id^='draw-style-']").forEach((el) => {
+		el.classList.remove("active");
+	});
+	document.getElementById("draw-style-" + STROKE_STYLES[style]).classList.add("active");
+	CURRENT_STROKE_SETTINGS.style = STROKE_STYLES[style];
 }
 
 function toggleHandwritingMenu() {

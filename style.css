@@ -59,6 +59,34 @@
     --ui-accent-color-rgb: 255, 74, 29;
 }
 
+
+.ui-theme-forest {
+    --background-primary: #ffefdd;
+    --background-primary-alt: #ffe6cb;
+    --background-secondary: #e9d7ca;
+    --background-secondary-alt: #ddc6b5;
+    --background-modifier-border: #d8c4b0;
+    --ui-text-primary: #342c25;
+    --ui-text-secondary: #6b5451;
+    --editor-text-primary: #342c25;
+    --editor-text-secondary: #6b5451;
+    --editor-text-tertiary: #ae958e;
+    --editor-draw-primary: #342c25;
+    --editor-draw-secondary: #6b5451;
+    --editor-draw-tertiary: #ae958e;
+    --editor-draw-red: #9a192e;
+    --editor-draw-orange: #ac5813;
+    --editor-draw-yellow: #c4c421;
+    --editor-draw-green: #15a445;
+    --editor-draw-cyan: #0e8baa;
+    --editor-draw-blue: #0e218c;
+    --editor-draw-purple: #7e0987;
+    --editor-draw-pink: #9b0c53;
+    --editor-draw-bark: #355540;
+    --ui-accent-color: #c64216;
+    --ui-accent-color-rgb: 255, 74, 29;
+}
+
 body {
     margin: 0;
     background: var(--background-primary);
@@ -138,6 +166,7 @@ svg {
 }
 #handwritingBottom {
     z-index: 1;
+    filter: saturate(100%) brightness(120%);
 }
 
 #document-title {
@@ -310,6 +339,7 @@ svg {
     flex-direction: column;
     transition: 0.3s bottom, 0.3s height;
     overflow: hidden;
+    z-index: 100;
 
 }
 .handwriting-persistent, .handwriting-persistent * {
