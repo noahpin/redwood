@@ -323,44 +323,36 @@ svg {
 }
 
 #handwriting-settings {
+    width: 100%;
     background: var(--background-secondary);
     position: fixed;
-    background: var(--background-primary);
-    border: 1px var(--background-modifier-border) solid;
-    border-radius: 8px;
-    height: 40px;
-    padding: 4px;
-    left: 1em;
-    bottom: calc(1em + env(safe-area-inset-bottom));
-    display: flex;
-    justify-content: flex-end;
-    gap: 4px;
-    align-items: flex-start;
-    flex-direction: column;
-    transition: 0.3s bottom, 0.3s height;
-    overflow: hidden;
+    bottom: 0;
     z-index: 100;
+    width: 100%;
+    background: var(--background-primary);
+    border-top: 1px var(--background-modifier-border) solid;
+    height: 48px;
+    padding-bottom: calc(0.25em + env(safe-area-inset-bottom));
+    transition: 0.3s bottom;
 
 }
-.handwriting-persistent, .handwriting-persistent * {
-    opacity: 1 !important;
-    pointer-events:  all !important;
+#handwriting-settings-inner{
+    height: 100%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    align-items: center;
 }
 
-#handwriting-settings * {
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.3s;
+
+#handwriting-settings-inner .divider {
+    width: 2px;
+    height: 30px;
+    border-radius: 2px;
+    background: var(--background-secondary);
 }
 
-#handwriting-settings.open {
-    height: 228px;
-}
-
-#handwriting-settings.open * {
-    pointer-events: all;
-    opacity: 1;
-}
 
 #handwriting-settings-carat i {
     transition: 0.3s transform;
@@ -398,13 +390,4 @@ svg {
     align-items: center;
     flex-direction: row;
 
-}
-
-#handwriting-settings .divider {
-    height: 2px !important;
-    width: 150px;
-    margin: auto;
-    flex-shrink: 0;
-    border-radius: 2px;
-    background: var(--background-secondary);
 }

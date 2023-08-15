@@ -110,7 +110,7 @@ const STROKE_STYLES = {
 
 const CURRENT_STROKE_SETTINGS = {
 	color: EDITOR_COLORS.primary,
-	size: 5,
+	size: 6,
 	style: STROKE_STYLES.FINE,
 	mode: "pen",
 };
@@ -194,14 +194,11 @@ function setDrawStyle(style) {
 	CURRENT_STROKE_SETTINGS.style = STROKE_STYLES[style];
 }
 
-function toggleHandwritingMenu() {
-	document.getElementById("handwriting-settings").classList.toggle("open");
-}
 
 function drawPen(path, id) {
 	const pts = path.path;
 	var options = {
-		simulatePressure: true,
+		simulatePressure: false,
 		size: path.options.size + path.options.size * 0.6,
 	};
 	const strokePoints = getStrokePoints(pts, options);

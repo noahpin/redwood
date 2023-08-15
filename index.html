@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Hyperiooo/Alrt.js@v0.1.1/src/alrt.css" />
 </head>
 
-<body class=" ui-theme-dark">
+<body class="ui-theme-forest ui-theme-dark">
     <div id="app-container">
         <div id="main-workspace">
             <div id="workspace-header">
@@ -33,9 +33,9 @@
                     </div>
                 </div>
             </div>
-            <div id="document-container" class="document-background-grid" >
+            <div id="document-container" class="document-background-grid">
                 <div id="backgroundPattern"></div>
-                <div id="document-main-area" >
+                <div id="document-main-area">
                     <svg id="handwritingTop" preserveAspectRatio="xMinYMin meet" viewBox="0 0 100 100">
                     </svg>
                     <div id="textEditable" contenteditable="true"></div>
@@ -95,10 +95,17 @@
                 </div>
             </div>
             <div id="handwriting-settings">
-                <div id="handwriting-settings-color-section">
-                </div>
-                <div class="divider"></div>
-                <div class="handwriting-settings-horizontal">
+                <div id="handwriting-settings-inner">
+
+                    <button onclick="setDrawMode('pen')" id="draw-mode-pen" class="setting-button active">
+                        <i class="hi-pencil-mono"></i>
+                    </button>
+                    <button onclick="setDrawMode('highlighter')" id="draw-mode-highlighter" class="setting-button">
+                        <i class="hi-highlighter-mono"></i>
+                    </button>
+                    <button class="setting-button" id="current-draw-color">
+                        <i class="hi-circle-small-fill"></i>
+                    </button>
                     <button class="setting-button" id="draw-style-drawn" onclick="setDrawStyle('DRAWN')">
                         <i class="hi-brush-width-mono"></i>
                     </button>
@@ -111,21 +118,12 @@
                     <button class="setting-button" id="draw-style-dot" onclick="setDrawStyle('DOT')">
                         <i class="hi-style-dot-mono"></i>
                     </button>
+                    <div class="divider"></div>
+                    <button class="setting-button" id="draw-mode-eraser" onclick="setDrawMode('eraser')">
+                        <i class="hi-eraser-mono"></i>
+                    </button>
                 </div>
-                <div class="divider"></div>
-                <div class="handwriting-settings-horizontal handwriting-persistent">
-                    <button onclick="setDrawMode('pen')" id="draw-mode-pen" class="setting-button active">
-                        <i class="hi-pencil-mono"></i>
-                    </button>
-                    <button onclick="setDrawMode('highlighter')"  id="draw-mode-highlighter" class="setting-button">
-                        <i class="hi-highlighter-mono"></i>
-                    </button>
-                    <button class="setting-button" id="current-draw-color">
-                        <i class="hi-circle-small-fill"></i>
-                    </button>
-                    <button class="setting-button" id="handwriting-settings-carat" onclick="toggleHandwritingMenu()">
-                        <i class="hi-carat-up"></i>
-                    </button>
+                <div id="handwriting-settings-color-section">
                 </div>
 
             </div>
