@@ -1,0 +1,616 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif:ital@0;1&family=Noto+Sans+Mono:wght@400;700&family=Noto+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
+
+:root {
+    --ui-header-height: 48px;
+    --editor-width: 800px;
+}
+
+.ui-theme-light {
+    --background-primary: #f2f3f5;
+    --background-primary-alt: #e8ebec;
+    --background-secondary: #cfd2d8;
+    --background-secondary-alt: #c4c7cf;
+    --background-modifier-border: #c0c5cc;
+    --ui-text-primary: #060738;
+    --ui-text-secondary: #51566b;
+    --editor-text-primary: #060738;
+    --editor-text-secondary: #8c94a3;
+    --editor-text-tertiary: #cbd1dd;
+    --editor-draw-primary: #060738;
+    --editor-draw-secondary: #8c94a3;
+    --editor-draw-tertiary: #cbd1dd;
+    --editor-draw-red: #e5171b;
+    --editor-draw-orange: #f75803;
+    --editor-draw-yellow: #d19600;
+    --editor-draw-green: #3fb483;
+    --editor-draw-cyan: #00a5e2;
+    --editor-draw-blue: #0050e5;
+    --editor-draw-purple: #7400c1;
+    --editor-draw-pink: #e500bb;
+    --editor-draw-brown: #834e35;
+    --editor-draw-red-transparent: #e5171a61;
+    --editor-draw-orange-transparent: #f7580361;
+    --editor-draw-yellow-transparent: #FBB04A61;
+    --editor-draw-green-transparent: #3fb48361;
+    --editor-draw-cyan-transparent: #02c3ea61;
+    --editor-draw-blue-transparent: #0050e561;
+    --editor-draw-purple-transparent: #7400c161;
+    --editor-draw-pink-transparent: #e500bb61;
+    --editor-draw-brown-transparent: #834e3561;
+    --ui-accent-color: rgb(240, 36, 0);
+    --ui-accent-color: #ff00ff;
+    --ui-accent-color-transparent: #ff00ff61;
+    --editor-modifier-selected-blur: #e0e0e0;
+    --editor-modifier-selected: #b9d3ff;
+}
+
+.ui-theme-dark {
+    --background-primary: #101114;
+    --background-primary-alt: #16181b;
+    --background-secondary: #181a1d;
+    --background-secondary-alt: #212327;
+    --background-modifier-border: #292c30;
+    --ui-text-primary: rgb(213, 226, 226);
+    --ui-text-secondary: rgb(128, 144, 148);
+    --editor-text-primary: rgb(213, 226, 226);
+    --editor-text-secondary: rgb(87, 95, 104);
+    --editor-text-tertiary: rgb(32, 35, 43);
+    --editor-draw-primary: rgb(213, 226, 226);
+    --editor-draw-secondary: rgb(87, 95, 104);
+    --editor-draw-tertiary: rgb(32, 35, 43);
+    --editor-draw-red: #ff3f5f;
+    --editor-draw-orange: #ff9845;
+    --editor-draw-yellow: #ffff61;
+    --editor-draw-green: #3eff7e;
+    --editor-draw-cyan: #51dcff;
+    --editor-draw-blue: #3352ff;
+    --editor-draw-purple: #cd76ff;
+    --editor-draw-pink: #ff97cb;
+    --editor-draw-brown: #8b573f;
+    --editor-draw-red-transparent: #ff3f5f58;
+    --editor-draw-orange-transparent: #ff984558;
+    --editor-draw-yellow-transparent: #ffff6158;
+    --editor-draw-green-transparent: #3eff7e58;
+    --editor-draw-cyan-transparent: #51dcff58;
+    --editor-draw-blue-transparent: #3352ff58;
+    --editor-draw-purple-transparent: #cd76ff58;
+    --editor-draw-pink-transparent: #ff97cb58;
+    --editor-draw-brown-transparent: #8b573f58;
+    --ui-accent-color: #ff4a1d;
+    --ui-accent-color: #ff00ff;
+    --ui-accent-color-transparent: #ff00ff58;
+    --editor-modifier-selected-blur: #2c2c32;
+    --editor-modifier-selected: #162f57;
+}
+
+.ui-accent-color-red {
+    --ui-accent-color: var(--editor-draw-red);
+    --ui-accent-color-transparent: var(--editor-draw-red-transparent);
+}
+
+.ui-accent-color-orange {
+    --ui-accent-color: var(--editor-draw-orange);
+    --ui-accent-color-transparent: var(--editor-draw-orange-transparent);
+}
+
+.ui-accent-color-yellow {
+    --ui-accent-color: var(--editor-draw-yellow);
+    --ui-accent-color-transparent: var(--editor-draw-yellow-transparent);
+}
+
+.ui-accent-color-green {
+    --ui-accent-color: var(--editor-draw-green);
+    --ui-accent-color-transparent: var(--editor-draw-green-transparent);
+}
+
+.ui-accent-color-cyan {
+    --ui-accent-color: var(--editor-draw-cyan);
+    --ui-accent-color-transparent: var(--editor-draw-cyan-transparent);
+}
+
+.ui-accent-color-blue {
+    --ui-accent-color: var(--editor-draw-blue);
+    --ui-accent-color-transparent: var(--editor-draw-blue-transparent);
+}
+
+.ui-accent-color-purple {
+    --ui-accent-color: var(--editor-draw-purple);
+    --ui-accent-color-transparent: var(--editor-draw-purple-transparent);
+}
+
+.ui-accent-color-pink {
+    --ui-accent-color: var(--editor-draw-pink);
+    --ui-accent-color-transparent: var(--editor-draw-pink-transparent);
+}
+
+body {
+    margin: 0;
+    background: var(--background-primary);
+    width: 100%;
+    height: 100vh;
+    padding: 0;
+    font-family: 'Noto Sans', sans-serif;
+    color: var(--editor-text-primary);
+    overflow: hidden !important;
+}
+
+#app-container {
+    position: relative;
+    background: var(--background-primary);
+    height: calc(100vh - var(--ui-header-height));
+    margin-top: calc(var(--ui-header-height));
+    box-sizing: border-box;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+#document-container {
+    touch-action: pan-x pan-y;
+    position: relative;
+    width: 100%;
+    height: fit-content;
+    margin: auto;
+    margin-bottom: 200px;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+}
+
+#backgroundPattern {
+    position: absolute;
+    top: 0;
+    color: var(--editor-text-primary);
+    width: var(--editor-width);
+    min-height: calc(100vh - 100px);
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.document-background-grid #backgroundPattern {
+    background-color: var(--ui-accent-color);
+    mask-position: 10px 10px;
+    opacity: .15;
+    mask-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Crect width='1' height='20' fill='black'/%3E%3Crect width='20' height='1' fill='black'/%3E%3C/svg%3E");
+}
+
+.document-background-lined-narrow #backgroundPattern {
+    background-color: var(--ui-accent-color);
+    mask-position: 0px -1px;
+    opacity: 0.15;
+    clip-path: polygon(0 70px, 100% 70px, 100% 100%, 0 100%);
+    mask-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Crect width='20' height='1' fill='black'/%3E%3C/svg%3E");
+}
+
+.document-background-lined-wide #backgroundPattern {
+    background-color: var(--ui-accent-color);
+    mask-position: 0px -5px;
+    opacity: .15;
+    clip-path: polygon(0 90px, 100% 90px, 100% 100%, 0 100%);
+    mask-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='40'%3E%3Crect width='20' height='1' fill='black'/%3E%3C/svg%3E");
+}
+
+.document-background-dot-grid #backgroundPattern {
+    background-color: var(--background-secondary-alt);
+    mask-position: 10px 10px;
+    mask-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Crect width='1' height='1' fill='black'/%3E%3C/svg%3E");
+}
+
+svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+#handwritingTop {
+    z-index: 20;
+}
+
+#handwritingBottom {
+    z-index: 1;
+    filter: saturate(100%) brightness(120%);
+}
+
+#document-title {
+    color: var(--editor-text-primary);
+    padding: 0 24px;
+}
+
+#document-main-area {
+    width: var(--editor-width);
+    position: relative;
+    border: 1px var(--background-modifier-border) dashed;
+    border-top: none;
+}
+
+#textEditable {
+    background: transparent;
+    border: none;
+    font-family: inherit;
+    resize: none;
+    position: relative;
+    color: var(--editor-text-primary);
+    width: 100% !important;
+    min-height: calc(100vh - 100px);
+    height: 100%;
+    border-top: none;
+    padding: 74px 54px;
+    word-break: break-all;
+    box-sizing: border-box;
+    transition: 0.1s min-height;
+    z-index: 10;
+}
+
+#marker-strip {
+    --width: 40px;
+    width: calc(50% - 400px);
+    height: calc(100% - (74px * 2));
+    position: absolute;
+    background: rebeccapurple;
+    right: 0;
+    top:74px;
+    overflow: visible;
+}
+.document-marker {
+    position: absolute;
+    background: var(--ui-accent-color);
+    color: var(--background-primary);
+    width: fit-content;
+    padding: 6px 12px;
+    left: -50px;
+    border-radius: 5px;
+    padding-left: 75px;
+    font-size: 14px;
+    font-family: 'Noto Sans Mono', monospace;
+    font-weight: 800;
+    mask-image: linear-gradient(to right, transparent, black 50px);
+    clip-path: polygon(0 calc(50% - 3px), 55px calc(50% - 3px), 70px 0, 100% 0, 100% 100%, 70px 100%, 55px calc(50% + 3px), 0 calc(50% + 3px));
+}
+
+#textEditable:focus {
+    outline: none;
+}
+
+.EasyMDEContainer .CodeMirror {
+    border: none !important;
+    padding: 74px 54px !important;
+    background: transparent !important;
+    min-height: calc(100vh - 100px);
+}
+.EasyMDEContainer {
+    position: relative;
+    
+    z-index: 10 !important;
+}
+
+.CodeMirror.no-padding {
+    padding: 0 !important;
+}
+
+.editor-preview {
+    padding: 74px 54px !important;
+    background: transparent !important;
+}
+.editor-preview-full {
+    position: relative !important;
+}
+
+.CodeMirror * {
+    color: var(--editor-text-primary);
+}
+
+.cm-spell-error {
+    background: transparent !important;
+    text-decoration: underline;
+    text-decoration-style: wavy;
+    text-decoration-color: var(--editor-draw-red);
+}
+
+.cm-formatting {
+    color: var(--editor-text-secondary) !important;
+}
+
+.CodeMirror-selectedtext {
+    background: var(--editor-modifier-selected-blur) !important;
+}
+
+.CodeMirror-focused .CodeMirror-selectedtext {
+    background: var(--editor-modifier-selected) !important;
+}
+
+.EasyMDEContainer .CodeMirror-selected {
+    background: transparent !important;
+}
+.editor-preview-active:focus {
+    outline: none;
+}
+
+.CodeMirror-cursor {
+    border-left: 2px solid var(--editor-text-primary) !important;
+}
+
+blockquote {
+    margin: 0;
+    padding: 0 40px;
+    background: linear-gradient(to right, var(--ui-accent-color-transparent), var(--ui-accent-color-transparent) 3px, transparent 3px);
+}
+
+hr {
+    height: 1px;
+    background-color: var(--editor-text-secondary);
+    border: none;
+}
+
+code {
+    border-radius: 4px;
+    padding: 0 4px;
+    background: var(--background-primary-alt);
+    font-family: 'Noto Sans Mono', monospace;
+    border: 1px solid var(--background-modifier-border);
+}
+
+.editor-preview pre {
+    padding: 10px;
+    background: var(--background-primary-alt) !important;
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 4px;
+    overflow-x: auto;
+}
+.editor-preview pre code{
+    border: none !important;
+    padding: 0 !important;
+}
+
+img {
+    max-width: 100%;
+}
+table {
+    width: 100%;
+    overflow: hidden;                
+    border-collapse: collapse; 
+    border-radius: 5px;
+    background: var(--background-primary);
+    margin-bottom: 15px;
+    box-shadow: 1px 1px 0px var(--background-modifier-border), -1px -1px 0px var(--background-modifier-border), -1px 1px 0px var(--background-modifier-border), 1px -1px 0px var(--background-modifier-border) ;
+}
+table td, table th{
+    border: 1px solid var(--background-modifier-border) !important;
+}
+table th:first-child, table td:first-child {
+    border-left: none !important;
+}
+table th:last-child, table td:last-child {
+    border-right: none !important;
+}
+table tr:last-child td {
+    border-bottom: none !important;
+}
+table th {
+    border-top: none !important;
+}
+table thead {
+    background: var(--background-primary-alt);
+}
+
+#workspace-header {
+    width: 100%;
+    background: var(--background-secondary);
+    height: fit-content;
+    position: fixed;
+    top: 0;
+    z-index: 100;
+}
+
+#workspace-file-tabs {
+    width: 100%;
+    background: var(--background-secondary);
+    border-bottom: 1px var(--background-modifier-border) solid;
+    height: var(--ui-header-height);
+    padding: 0 24px;
+    box-sizing: border-box;
+}
+
+#workspace-current-ribbon {
+    position: relative;
+    width: 100%;
+    background: var(--background-primary);
+    border-bottom: 1px var(--background-modifier-border) solid;
+    height: var(--ui-header-height);
+    padding: 0 24px;
+    box-sizing: border-box;
+}
+
+#ribbon-current-title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.ribbon-current-right {
+    float: right;
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ribbon-current-left {
+    float: left;
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#ribbon-logo {
+    position:relative;
+    height: 35px;
+    width: fit-content;
+}
+#ribbon-logo svg {
+    width: auto;
+    height: 100%;
+}
+
+#ribbon-subject-label {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 14px;
+    background: var(--ui-accent-color);
+    font-family: 'Noto Sans Mono', sans-serif;
+    color: var(--background-primary);
+}
+
+.ribbon-button {
+    all: initial;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--ui-accent-color);
+    border-radius: 4px;
+    padding: 4px;
+}
+
+.ribbon-button i {
+    font-size: 22px;
+}
+
+#text-editor-settings {
+    background: var(--background-secondary);
+    position: fixed;
+    bottom: calc(-58px - calc(0.25em + env(safe-area-inset-bottom)));
+    z-index: 100;
+    border-radius: 8px;
+    padding: 4px;
+    background: var(--background-primary);
+    border: 1px var(--background-modifier-border) solid;
+    transition: 0.3s bottom;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+#text-editor-settings.open {
+    bottom: calc(0.25em + 8px + env(safe-area-inset-bottom));
+}
+
+#text-editor-settings-inner {
+    height: 100%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    align-items: center;
+}
+
+#text-editor-settings-inner .divider {
+    width: 1px;
+    height: 30px;
+    background: var(--background-modifier-border);
+}
+
+.setting-button {
+    all: initial;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--ui-text-secondary);
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.setting-button i {
+    font-size: 24px;
+}
+
+.setting-button:not(.color-button):focus,
+.setting-button:not(.color-button):hover {
+    background: var(--background-primary-alt);
+}
+
+.setting-button:not(.color-button).active {
+    color: var(--ui-accent-color);
+    border: 1px solid var(--ui-accent-color-transparent);
+    box-sizing: border-box;
+}
+
+.color-button:focus,
+.color-button:hover {
+    background: var(--background-primary-alt);
+}
+
+.color-button.active {
+    background: var(--background-primary-alt);
+    border: 1px solid var(--background-modifier-border);
+    box-sizing: border-box;
+}
+
+#handwriting-settings {
+    background: var(--background-secondary);
+    position: fixed;
+    z-index: 100;
+    background: var(--background-primary);
+    border: 1px var(--background-modifier-border) solid;
+    padding: 4px;
+    transition: 0.3s bottom;
+    border-radius: 8px;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#handwriting-settings-inner {
+    height: 100%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    align-items: center;
+}
+
+#handwriting-settings-inner .divider {
+    width: 30px;
+    height: 1px;
+    border-radius: 2px;
+    background: var(--background-secondary);
+}
+
+#handwriting-settings-carat i {
+    transition: 0.3s transform;
+}
+
+#handwriting-settings.open #handwriting-settings-carat i {
+    transform: rotate(180deg);
+}
+
+#current-draw-color {
+    opacity: 1;
+    pointer-events: all;
+}
+
+#handwriting-settings.open #current-draw-color,
+#handwriting-settings.open #current-draw-color i {
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+#handwriting-settings-color-section {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.handwriting-settings-horizontal {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    align-items: center;
+    flex-direction: row;
+}

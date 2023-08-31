@@ -5,27 +5,37 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="./main.js" defer></script>
-    <link rel="stylesheet" href="./style.css">
-    <script src="./perf.js"></script>
+    <title>Redwood</title>
+    <link rel="stylesheet" href="./styles/style.css">
+    <script src="./scripts/perf.js"></script>
+    <script src="./scripts/ui.js"></script>
+    <script src="./scripts/texteditor.js"></script>
+    <script src="./scripts/editorMain.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.4.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Hyperiooo/Hypericons@v0.7.9.2/fonts/hypericons.css">
     <script src="https://cdn.jsdelivr.net/gh/Hyperiooo/Alrt.js@v0.1.2/src/alrt.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Hyperiooo/Alrt.js@v0.1.1/src/alrt.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/highlight.js/latest/highlight.min.js"></script>
+    <link rel="stylesheet" href="./styles/highlight-theme.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
-<body class="ui-theme-forest ui-theme-dark">
+<body class="ui-theme-light ui-accent-color-green">
     <div id="app-container">
         <div id="main-workspace">
             <div id="workspace-header">
-                <div id="workspace-file-tabs"></div>
                 <div id="workspace-current-ribbon">
-                    <div class="ribbon-current-left"></div>
+                    <div class="ribbon-current-left">
+                        <div id="ribbon-subject-label">MATH126</div>
+                    </div>
                     <div id="ribbon-current-title">Untitled</div>
                     <div class="ribbon-current-right">
-                        <button onpointerup="document.body.classList.toggle('ui-theme-dark')" class="ribbon-button">
-                            <i class="hi-book-open-mono"></i>
+                        <button onpointerup="togglePreview()" class="ribbon-button">
+                            <i id="preview-toggle-icon" class="hi-book-open-mono"></i>
                         </button>
                         <button class="ribbon-button">
                             <i class="hi-three-dots-mono"></i>
@@ -33,18 +43,21 @@
                     </div>
                 </div>
             </div>
-            <div id="document-container" class="document-background-grid">
+            <div id="document-container" class="document-background-lined-wide">
+                <div style="display: none;" id="marker-strip">
+                    <div id="marker-TEST" class="document-marker"><i class="ri-pulse-line"></i></div>
+                </div>
                 <div id="backgroundPattern"></div>
                 <div id="document-main-area">
                     <svg id="handwritingTop" preserveAspectRatio="xMinYMin meet" viewBox="0 0 100 100">
                     </svg>
-                    <div id="textEditable" contenteditable="true"></div>
+                    <textarea id="textEditable" contenteditable="true"></textarea>
 
                     <svg id="handwritingBottom" preserveAspectRatio="xMinYMin meet" viewBox="0 0 100 100">
                     </svg>
                 </div>
             </div>
-            <div id="text-editor-settings" class="">
+            <div id="text-editor-settings" class="open">
                 <div id="text-editor-settings-inner">
                     <button class="setting-button">
                         <i class="ri-format-clear"></i>
@@ -60,13 +73,7 @@
                         <i class="ri-italic"></i>
                     </button>
                     <button class="setting-button">
-                        <i class="ri-underline"></i>
-                    </button>
-                    <button class="setting-button">
-                        <i class="ri-strikethrough-2"></i>
-                    </button>
-                    <button class="setting-button">
-                        <i class="ri-font-size-2"></i>
+                        <i class="ri-strikethrough"></i>
                     </button>
                     <div class="divider"></div>
                     <button class="setting-button">
@@ -77,13 +84,16 @@
                     </button>
                     <div class="divider"></div>
                     <button class="setting-button">
+                        <i class="ri-double-quotes-r"></i>
+                    </button>
+                    <button class="setting-button">
+                        <i class="ri-braces-line"></i>
+                    </button>
+                    <button class="setting-button">
                         <i class="ri-list-unordered"></i>
                     </button>
                     <button class="setting-button">
                         <i class="ri-list-ordered-2"></i>
-                    </button>
-                    <button class="setting-button">
-                        <i class="ri-list-check-3"></i>
                     </button>
                     <div class="divider"></div>
                     <button class="setting-button">
@@ -123,7 +133,7 @@
                         <i class="hi-eraser-mono"></i>
                     </button>
                 </div>
-                <div id="handwriting-settings-color-section">
+                <div style="" id="handwriting-settings-color-section">
                 </div>
 
             </div>

@@ -1,67 +1,3 @@
-var handTopLayer = document.getElementById("handwritingTop");
-var handBottomLayer = document.getElementById("handwritingBottom");
-var textEditableArea = document.getElementById("textEditable");
-var appContainer = document.getElementById("app-container");
-var documentContainer = document.getElementById("document-container");
-var textEditableBounds = getOffsetRect(textEditableArea);
-
-document.onkeydown = function (e) {
-	textEditableArea.focus();
-};
-
-textEditableArea.onfocus = function () {
-	document.getElementById("text-editor-settings").classList.add("open");
-};
-textEditableArea.onblur = function () {
-	document.getElementById("text-editor-settings").classList.remove("open");
-};
-
-notify = new Alrt({
-	position: "top-center",
-	duration: 1200, //default duration
-	behavior: "overwrite",
-});
-
-handTopLayer.setAttributeNS(
-	null,
-	"viewBox",
-	"0 0 " + textEditableBounds.width + " " + textEditableBounds.height
-);
-handTopLayer.setAttributeNS(null, "width", textEditableBounds.width);
-handTopLayer.setAttributeNS(null, "height", textEditableBounds.height);
-
-handBottomLayer.setAttributeNS(
-	null,
-	"viewBox",
-	"0 0 " + textEditableBounds.width + " " + textEditableBounds.height
-);
-handBottomLayer.setAttributeNS(null, "width", textEditableBounds.width);
-handBottomLayer.setAttributeNS(null, "height", textEditableBounds.height);
-
-//replace the above with a resizeobserver
-const resizeobserver = new ResizeObserver((entries) => {
-	for (let entry of entries) {
-		textEditableBounds = getOffsetRect(textEditableArea);
-
-		handTopLayer.setAttributeNS(
-			null,
-			"viewBox",
-			"0 0 " + textEditableBounds.width + " " + textEditableBounds.height
-		);
-		handTopLayer.setAttributeNS(null, "width", textEditableBounds.width);
-		handTopLayer.setAttributeNS(null, "height", textEditableBounds.height);
-
-		handBottomLayer.setAttributeNS(
-			null,
-			"viewBox",
-			"0 0 " + textEditableBounds.width + " " + textEditableBounds.height
-		);
-		handBottomLayer.setAttributeNS(null, "width", textEditableBounds.width);
-		handBottomLayer.setAttributeNS(null, "height", textEditableBounds.height);
-	}
-});
-resizeobserver.observe(textEditableArea);
-
 var EDITOR_COLORS = {
 	primary: {
 		css: "--editor-draw-primary",
@@ -78,7 +14,7 @@ var EDITOR_COLORS = {
 		id: "editor-draw-tertiary",
 		key: "tertiary",
 	},
-	bark: { css: "--editor-draw-bark", id: "editor-draw-bark", key: "bark" },
+	brown: { css: "--editor-draw-brown", id: "editor-draw-brown", key: "brown" },
 	red: { css: "--editor-draw-red", id: "editor-draw-red", key: "red" },
 	orange: {
 		css: "--editor-draw-orange",
@@ -115,6 +51,196 @@ const CURRENT_STROKE_SETTINGS = {
 	mode: "pen",
 };
 
+var handTopLayer,
+	handBottomLayer,
+	textEditableArea,
+	appContainer,
+	documentContainer,
+	textEditableBounds;
+
+document.addEventListener("DOMContentLoaded", function () {
+	notify = new Alrt({
+		position: "top-center",
+		duration: 1200, //default duration
+		behavior: "overwrite",
+	});
+
+	handTopLayer = document.getElementById("handwritingTop");
+	handBottomLayer = document.getElementById("handwritingBottom");
+	appContainer = document.getElementById("app-container");
+	documentContainer = document.getElementById("document-container");
+	initThemes();
+	initTextEditor();
+	initToolbar();
+	textEditableArea = document.querySelectorAll(".CodeMirror")[0];
+	textEditableBounds = getOffsetRect(textEditableArea);
+	initDrawing();
+});
+
+function initDrawing() {
+	handTopLayer.setAttributeNS(
+		null,
+		"viewBox",
+		"0 0 " + textEditableBounds.width + " " + textEditableBounds.height
+	);
+	handTopLayer.setAttributeNS(null, "width", textEditableBounds.width);
+	handTopLayer.setAttributeNS(null, "height", textEditableBounds.height);
+
+	handBottomLayer.setAttributeNS(
+		null,
+		"viewBox",
+		"0 0 " + textEditableBounds.width + " " + textEditableBounds.height
+	);
+	handBottomLayer.setAttributeNS(null, "width", textEditableBounds.width);
+	handBottomLayer.setAttributeNS(null, "height", textEditableBounds.height);
+
+	const resizeobserver = new ResizeObserver((entries) => {
+		for (let entry of entries) {
+			textEditableBounds = getOffsetRect(textEditableArea);
+
+			handTopLayer.setAttributeNS(
+				null,
+				"viewBox",
+				"0 0 " + textEditableBounds.width + " " + textEditableBounds.height
+			);
+			handTopLayer.setAttributeNS(null, "width", textEditableBounds.width);
+			handTopLayer.setAttributeNS(null, "height", textEditableBounds.height);
+
+			handBottomLayer.setAttributeNS(
+				null,
+				"viewBox",
+				"0 0 " + textEditableBounds.width + " " + textEditableBounds.height
+			);
+			handBottomLayer.setAttributeNS(null, "width", textEditableBounds.width);
+			handBottomLayer.setAttributeNS(null, "height", textEditableBounds.height);
+		}
+	});
+	resizeobserver.observe(textEditableArea);
+
+	createColorMenu();
+	setDrawColor("primary");
+	setDrawStyle("FINE");
+
+	let toplevelPaths = {};
+
+	let bottomlevelPaths = {};
+
+	let drawnPath = [];
+	let activePath = null;
+
+	var isPen = false;
+
+	document.body.addEventListener(
+		"pointerdown",
+		function (e) {
+			if (!documentContainer.contains(e.target)) return;
+			if (e.pointerType === "pen") {
+				isPen = true;
+				textEditableArea.contentEditable = false;
+				e.preventDefault();
+			} else {
+				isPen = false;
+				textEditableArea.contentEditable = true;
+			}
+		},
+		{
+			capture: true,
+		}
+	);
+
+	document.body.addEventListener(
+		"touchstart",
+		function (e) {
+			if (!documentContainer.contains(e.target)) return;
+			if (isPen) {
+				e.preventDefault();
+				activePath = genId();
+				if (CURRENT_STROKE_SETTINGS.mode == "pen") {
+					toplevelPaths[activePath] = {
+						path: [
+							[
+								e.touches[0].clientX - textEditableBounds.left + window.scrollX,
+								e.touches[0].clientY -
+									textEditableBounds.top +
+									appContainer.scrollTop,
+								e.touches[0].force,
+							],
+						],
+						options: {
+							size: CURRENT_STROKE_SETTINGS.size,
+							color: CURRENT_STROKE_SETTINGS.color,
+							style: CURRENT_STROKE_SETTINGS.style,
+						},
+					};
+				} else if (CURRENT_STROKE_SETTINGS.mode == "highlighter") {
+					bottomlevelPaths[activePath] = {
+						path: [
+							[
+								e.touches[0].clientX - textEditableBounds.left + window.scrollX,
+								e.touches[0].clientY -
+									textEditableBounds.top +
+									appContainer.scrollTop,
+								e.touches[0].force,
+							],
+						],
+						options: {
+							size: CURRENT_STROKE_SETTINGS.size,
+							color: CURRENT_STROKE_SETTINGS.color,
+							style: CURRENT_STROKE_SETTINGS.style,
+						},
+					};
+				}
+			}
+		},
+		{
+			passive: false,
+			capture: false,
+		}
+	);
+
+	document.ontouchmove = function (e) {
+		if (!documentContainer.contains(e.target)) return;
+		e.preventDefault();
+		if (activePath) {
+			if (
+				e.touches[0].clientY - textEditableBounds.top + appContainer.scrollTop >
+				textEditableBounds.height - 250
+			) {
+				textEditableArea.style.minHeight =
+					textEditableBounds.height + 250 + "px";
+			}
+			if (CURRENT_STROKE_SETTINGS.mode == "pen") {
+				toplevelPaths[activePath].path.push([
+					e.touches[0].clientX - textEditableBounds.left + window.scrollX,
+					e.touches[0].clientY -
+						textEditableBounds.top +
+						appContainer.scrollTop,
+					e.touches[0].force,
+				]);
+			} else if (CURRENT_STROKE_SETTINGS.mode == "highlighter") {
+				bottomlevelPaths[activePath].path.push([
+					e.touches[0].clientX - textEditableBounds.left + window.scrollX,
+					e.touches[0].clientY -
+						textEditableBounds.top +
+						appContainer.scrollTop,
+					e.touches[0].force,
+				]);
+			}
+			updatePath(activePath);
+		}
+	};
+
+	document.ontouchend = function (e) {
+		if (!documentContainer.contains(e.target)) return;
+		e.preventDefault();
+		if (activePath) {
+			updatePath(activePath);
+
+			activePath = null;
+		}
+	};
+}
+
 function createColorMenu() {
 	document.getElementById("handwriting-settings-color-section").innerHTML = "";
 	let i = 0;
@@ -144,10 +270,6 @@ function createColorMenu() {
 		row.appendChild(colorButton);
 	}
 }
-
-createColorMenu();
-setDrawColor("primary");
-setDrawStyle("FINE");
 
 function setDrawColor(color) {
 	console.log("asdf");
@@ -182,18 +304,18 @@ function setDrawMode(mode) {
 }
 
 function setDrawStyle(style) {
-
-	if(STROKE_STYLES.hasOwnProperty(style)){
-		console.log("ya")
+	if (STROKE_STYLES.hasOwnProperty(style)) {
+		console.log("ya");
 	}
-	
+
 	document.querySelectorAll("[id^='draw-style-']").forEach((el) => {
 		el.classList.remove("active");
 	});
-	document.getElementById("draw-style-" + STROKE_STYLES[style]).classList.add("active");
+	document
+		.getElementById("draw-style-" + STROKE_STYLES[style])
+		.classList.add("active");
 	CURRENT_STROKE_SETTINGS.style = STROKE_STYLES[style];
 }
-
 
 function drawPen(path, id) {
 	const pts = path.path;
@@ -287,127 +409,6 @@ function updatePath(id) {
 		drawHighlighter(bottomlevelPaths[id], id);
 	}
 }
-
-let toplevelPaths = {};
-
-let bottomlevelPaths = {};
-
-let drawnPath = [];
-let activePath = null;
-
-var isPen = false;
-
-document.body.addEventListener(
-	"pointerdown",
-	function (e) {
-		if (!documentContainer.contains(e.target)) return;
-		if (e.pointerType === "pen") {
-			isPen = true;
-			textEditableArea.contentEditable = false;
-			e.preventDefault();
-		} else {
-			isPen = false;
-			textEditableArea.contentEditable = true;
-		}
-	},
-	{
-		capture: true,
-	}
-);
-
-colorIndex = 0;
-
-document.body.addEventListener(
-	"touchstart",
-	function (e) {
-		if (!documentContainer.contains(e.target)) return;
-		if (isPen) {
-			e.preventDefault();
-			activePath = genId();
-			//pick different color each time, increment by one
-			var color = Object.keys(EDITOR_COLORS)[colorIndex];
-			colorIndex = (colorIndex + 1) % Object.keys(EDITOR_COLORS).length;
-			if(CURRENT_STROKE_SETTINGS.mode == "pen"){
-				toplevelPaths[activePath] = {
-					path: [
-						[
-							e.touches[0].clientX - textEditableBounds.left + window.scrollX,
-							e.touches[0].clientY -
-								textEditableBounds.top +
-								appContainer.scrollTop,
-							e.touches[0].force,
-						],
-					],
-					options: {
-						size: CURRENT_STROKE_SETTINGS.size,
-						color: CURRENT_STROKE_SETTINGS.color,
-						style: CURRENT_STROKE_SETTINGS.style,
-					},
-				};
-
-			}else if(CURRENT_STROKE_SETTINGS.mode=="highlighter"){
-				bottomlevelPaths[activePath] = {
-					path: [
-						[
-							e.touches[0].clientX - textEditableBounds.left + window.scrollX,
-							e.touches[0].clientY -
-								textEditableBounds.top +
-								appContainer.scrollTop,
-							e.touches[0].force,
-						],
-					],
-					options: {
-						size: CURRENT_STROKE_SETTINGS.size,
-						color: CURRENT_STROKE_SETTINGS.color,
-						style: CURRENT_STROKE_SETTINGS.style,
-					},
-				};
-			}
-		}
-	},
-	{
-		passive: false,
-		capture: false,
-	}
-);
-
-document.ontouchmove = function (e) {
-	if (!documentContainer.contains(e.target)) return;
-	e.preventDefault();
-	if (activePath) {
-		if (
-			e.touches[0].clientY - textEditableBounds.top + appContainer.scrollTop >
-			textEditableBounds.height - 250
-		) {
-			textEditableArea.style.minHeight = textEditableBounds.height + 250 + "px";
-		}
-		if(CURRENT_STROKE_SETTINGS.mode == "pen"){
-			toplevelPaths[activePath].path.push([
-				e.touches[0].clientX - textEditableBounds.left + window.scrollX,
-				e.touches[0].clientY - textEditableBounds.top + appContainer.scrollTop,
-				e.touches[0].force,
-			]);
-
-		}else if(CURRENT_STROKE_SETTINGS.mode == "highlighter"){
-			bottomlevelPaths[activePath].path.push([
-				e.touches[0].clientX - textEditableBounds.left + window.scrollX,
-				e.touches[0].clientY - textEditableBounds.top + appContainer.scrollTop,
-				e.touches[0].force,
-			]);
-		}
-		updatePath(activePath);
-	}
-};
-
-document.ontouchend = function (e) {
-	if (!documentContainer.contains(e.target)) return;
-	e.preventDefault();
-	if (activePath) {
-		updatePath(activePath);
-
-		activePath = null;
-	}
-};
 
 function genId() {
 	return Math.random().toString(36).substring(2, 15);
