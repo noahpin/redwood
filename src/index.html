@@ -4,18 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Redwood Notes</title>
-    <link rel="stylesheet" href="./styles/style.css">
-    <script src="./scripts/homeMain.js"></script>
-    <script src="./scripts/ui.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.4.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Hyperiooo/Hypericons@v0.7.9.2/fonts/hypericons.css">
     <script src="https://cdn.jsdelivr.net/gh/Hyperiooo/Alrt.js@v0.1.2/src/alrt.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Hyperiooo/Alrt.js@v0.1.1/src/alrt.css" />
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- IOS SUPPORT -->
+    <meta name="apple-mobile-web-app-status-bar" content="#0f1216" />
+    <meta name="theme-color" content="#0f1216" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="#0f1216" />
+
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Redwood" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    
+    <link rel="apple-touch-icon" id="icon" href="./assets/icon.png">
+    <script>
+      var devMode = window.location.href.includes("dev")
+      let iconUrl = devMode ? "/assets/icon-dev.png" : "/assets/icon.png";
+      iconUrl= window.location.origin + iconUrl
+      history.pushState({}, "", "/");
+      document.getElementById("icon").href = iconUrl
+      let manifest = {
+        name: "Redwood" +( devMode ? " Dev" : ""),
+        short_name: "Redwood" + (devMode ? " Dev" : ""),
+        "start_url": window.location.href,
+        display: "standalone",
+        icons: [
+          {
+            src: iconUrl,
+            sizes: "512x512",
+            type: "image/png",
+            purpose: "maskable"
+          },
+        ],
+        background_color: "#3386ff",
+        theme_color: "#3386ff",
+      };
+      let content = encodeURIComponent(JSON.stringify(manifest));
+      let url = "data:application/manifest+json," + content;
+      let element = document.createElement("link");
+      element.setAttribute("rel", "manifest");
+      element.setAttribute("href", url);
+      document.querySelector("head").appendChild(element);
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <link rel="stylesheet" href="./styles/style.css">
+    <script src="./scripts/homeMain.js"></script>
+    <script src="./scripts/supabaseCore.js" defer></script>
+    <script src="./scripts/ui.js" defer></script>
 
 </head>
-<body>
+<body class="ui-theme-light">
     <div id="app-container">
         <div id="main-workspace">
             <div id="workspace-header">

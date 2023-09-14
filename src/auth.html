@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redwood Notes</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.4.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Hyperiooo/Hypericons@v0.7.9.2/fonts/hypericons.css">
+    <script src="https://cdn.jsdelivr.net/gh/Hyperiooo/Alrt.js@v0.1.2/src/alrt.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Hyperiooo/Alrt.js@v0.1.1/src/alrt.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="./styles/style.css">
+    <script src="./scripts/authMain.js"></script>
+    <script src="./scripts/supabaseCore.js" defer></script>
+    <script src="./scripts/authBackground.js"></script>
+
+</head>
+<body class="ui-theme-light">
+    <div class="auth-ui-main">
+        <h1 id="auth-ui-title">Sign</h1>
+        <form id='sign-up'>
+            <div class="dialog ui-input-error auth-err-area"></div>
+            <div class="form-group">
+                <p class="form-label">Email Address</p>
+                <input type="email" name="email">
+            </div>
+            <div class="form-group">
+                <p class="form-label">Password</p>
+                <input type="password" name="password">
+            </div>
+            <div class="form-group">
+                <p class="form-label">Confirm Password</p>
+                <input type="password" name="confirm_password">
+            </div>
+            <input type="submit" value="Sign Up" />
+            <div class="dialog">
+                Already have an account? <a href="javascript:changeToSignIn()">Sign In</a>
+            </div>
+    
+        </form>
+        <form id='sign-in'>
+            <div class="dialog ui-input-error auth-err-area"></div>
+            <div class="form-group">
+                <p class="form-label">Email Address</p>
+                <input type="email" name="email">
+            </div>
+            <div class="form-group">
+                <p class="form-label">Password</p>
+                <input type="password" name="password">
+            </div>
+            <input type="submit" value="Sign In" />
+            <div class="dialog">
+                New to Redwood? <a href="javascript:changeToSignUp(0)">Sign Up</a>
+            </div>
+    
+        </form>
+    </div>
+    <script>
+        new Background();
+    </script>
+</body>
+</html>

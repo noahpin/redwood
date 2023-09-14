@@ -17,8 +17,50 @@ function setTheme(theme) {
     }else if(theme == "dark") {
         document.body.classList.remove("ui-theme-light");
         document.body.classList.add("ui-theme-dark");
+    }else if (theme =="system") {
+        var systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
+		if (systemTheme) {
+            document.body.classList.remove("ui-theme-light");
+            document.body.classList.add("ui-theme-dark");
+		} else {
+            document.body.classList.remove("ui-theme-dark");
+            document.body.classList.add("ui-theme-light");
+		}
     }
+
+    document
+		.querySelector('meta[name="theme-color"]')
+		.setAttribute(
+			"content",
+			getComputedStyle(document.body).getPropertyValue(
+				"--background-primary"
+			)
+		);
+	document
+		.querySelector('meta[name="apple-mobile-web-app-status-bar"]')
+		.setAttribute(
+			"content",
+			getComputedStyle(document.body).getPropertyValue(
+				"--background-primary"
+			)
+		);
+	document
+		.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]')
+		.setAttribute(
+			"content",
+			getComputedStyle(document.body).getPropertyValue(
+				"--background-primary"
+			)
+		);
 }
+
+window
+	.matchMedia("(prefers-color-scheme: dark)")
+	.addEventListener("change", function (e) {
+		if (localStorage.theme == "system") {
+			setTheme("system");
+		}
+	});
 
 function setAccent(accent) {
     document.body.classList.remove("ui-accent-color-red");
